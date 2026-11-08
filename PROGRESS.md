@@ -3,17 +3,17 @@
 Legenda: `[x]` zrobione · `[ ]` do zrobienia · ➡️ aktualny punkt
 
 ## 📍 Punkt startowy (dla nowej sesji)
-- **Moduł:** M0. Setup (M1 ukończony ✅).
-- **Koncept:** Repo projektu, dalszy ciąg. Zrobione: `git init`, `.gitignore` (`.venv/`, `.env`, `__pycache__/`), pytanie o sekrety zaliczone. Do zrobienia: `git add` + `git commit` (pierwszy commit), repo na GitHubie, `git remote add` + `git push`. Konto GitHub: PatrykWalczak. Uczeń zapytał o GitHub Actions: odłożone do M7 (po pytest), gałęzie i PR do M2. Pytanie czekające: dlaczego commit w dwóch krokach (add, commit).
-- **Pytanie czekające na odpowiedź:** „Dlaczego commit robi się w dwóch krokach (`add`, potem `commit`)? Jaką korzyść daje ten pośredni etap?” Uczeń ma wykonać: `git add .`, `git status`, `git commit -m "..."`, `git log --oneline`.
-- **Ustalenia:** narzędzie automatyzacji to Power Automate (nie n8n). Po każdym koncepcie pytanie rekrutacyjne do `INTERVIEW.md`. **Zamiast czystego venv używamy `uv`** (uczeń zainstalował uv 0.13.7, `.venv` utworzony przez `uv venv` w `E:\Projects\API`). Pełny workflow uv (`uv init`, `uv add`, `uv run`) pokazać przy pierwszej instalacji biblioteki (httpx w M3), składnię sprawdzić w context7 (/astral-sh/uv). Python 3.15.2, Git 2.56 zainstalowane. Postman: jeszcze niesprawdzony.
+- **Moduł:** M0 ukończony ✅ (M1 też ✅). Następny: **M2. Konsumowanie API ręcznie: Postman**.
+- **Koncept:** Pierwsze zapytania do publicznego API. Jeszcze nie zaczęty. Uczeń ma zainstalowanego Postmana (wersja desktop). Zaczynamy od wyboru prostego, darmowego publicznego API bez klucza (sprawdź aktualną dokumentację Postmana w context7 przed pokazaniem interfejsu). Uczeń nie używał jeszcze httpx (to M3). Repo: `https://github.com/PatrykWalczak/api-learning`.
+- **Pytanie czekające na odpowiedź:** brak. Zacznij od pierwszego konceptu M2.
+- **Ustalenia:** narzędzie automatyzacji to Power Automate (nie n8n). Po każdym koncepcie pytanie rekrutacyjne do `INTERVIEW.md`. **Zamiast czystego venv używamy `uv`** (uczeń zainstalował uv 0.13.7, `.venv` utworzony przez `uv venv` w `E:\Projects\API`). Pełny workflow uv (`uv init`, `uv add`, `uv run`) pokazać przy pierwszej instalacji biblioteki (httpx w M3), składnię sprawdzić w context7 (/astral-sh/uv). Python 3.15.2, Git 2.56 zainstalowane. Postman zainstalowany.
 
 ## M0. Setup
 - [x] Python 3.12+ i venv (uv)
 - [x] VS Code
 - [x] Git + konto GitHub, konfiguracja
-- [ ] ➡️ Repo projektu (git init, .gitignore, commit, push)
-- [ ] Postman
+- [x] Repo projektu (git init, .gitignore, commit, push)
+- [x] Postman
 
 ## M1. Fundamenty HTTP i REST (bez kodu)
 - [x] Klient, serwer i API
@@ -27,7 +27,7 @@ Legenda: `[x]` zrobione · `[ ]` do zrobienia · ➡️ aktualny punkt
 - [x] Idempotentność
 
 ## M2. Konsumowanie API ręcznie: Postman
-- [ ] Pierwsze zapytania do publicznego API
+- [ ] ➡️ Pierwsze zapytania do publicznego API
 - [ ] Kolekcje
 - [ ] Zmienne i środowiska
 - [ ] Testy (asercje) w Postmanie
@@ -99,3 +99,4 @@ Legenda: `[x]` zrobione · `[ ]` do zrobienia · ➡️ aktualny punkt
 |------|-------------|---------------|
 | 2026-11-06 | Plan nauki, CLAUDE.md, PROGRESS.md | M1: Klient, serwer i API (czeka na odpowiedź) |
 | 2026-11-07 | **M1 ukończony**: 9 konceptów HTTP/REST, 9 pytań w INTERVIEW.md. Słabszy punkt: przy PATCH uczeń wpisał wartość w URL zamiast w body (poprawione). | M0 Setup, potem M2 Postman |
+| 2026-11-08 | **M0 ukończony**: Python 3.15.2 + uv (`.venv`), VS Code, Git (konfiguracja), repo `api-learning` na GitHubie, Postman. 6 pytań dodanych do INTERVIEW.md. Plan uzupełniony o gałęzie/PR (M2) i GitHub Actions (M7). | M2: pierwsze zapytania w Postmanie |

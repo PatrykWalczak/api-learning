@@ -44,3 +44,12 @@ Jedno pytanie na każdy opanowany koncept. Przed rozmową o pracę powtórz na g
 
 ### Jak chronisz sekrety (klucze API, hasła) w projekcie i co robisz, gdy sekret trafi do repozytorium?
 > Sekrety trzymam w pliku `.env` lub zmiennych środowiskowych, a `.env` dodaję do `.gitignore`. W repozytorium zostaje tylko `.env.example` bez wartości. Jeśli sekret trafi do repo, samo usunięcie pliku nie wystarcza, bo zostaje w historii commitów. Trzeba natychmiast unieważnić i wygenerować nowy klucz (rotacja), dopiero potem ewentualnie czyścić historię. Boty skanują GitHuba w poszukiwaniu kluczy w ciągu minut.
+
+### Czym jest staging area (index) w Gicie i po co jest osobny krok `git add` przed `git commit`?
+> Staging area to przechowalnia między katalogiem roboczym a historią. `git add` wybiera, które zmiany trafią do następnego commita, a `git commit` zapisuje je jako migawkę w lokalnej historii. Dzięki temu mogę z wielu zmian zrobić kilka małych, logicznych commitów (np. osobno poprawkę błędu i refaktoryzację) i przed zapisem sprawdzić `git status` i `git diff --staged`. Commit zostaje lokalny, dopiero `git push` wysyła go na zdalne repozytorium.
+
+### Czym jest remote i `origin` w Gicie oraz czym różni się `git push` od `git pull`?
+> Remote to zapisany w lokalnym repo adres zdalnego repozytorium, np. na GitHubie. `origin` to domyślna nazwa (alias) nadawana głównemu remote'owi, wygodniejsza niż pełny URL. `git push` wysyła moje lokalne commity do remote, a `git pull` pobiera cudze zmiany z remote i scala je z moją gałęzią (to `git fetch` plus `merge`). Przed pushem warto zrobić pull, żeby uniknąć konfliktów.
+
+### Czym jest Postman i do czego służy w pracy z API?
+> Postman to narzędzie do ręcznego wysyłania zapytań HTTP i oglądania odpowiedzi bez pisania kodu. Pozwala ustawić metodę, URL, nagłówki, body i uwierzytelnianie, grupować zapytania w kolekcje, używać zmiennych i środowisk (dev, test, prod) oraz pisać testy-asercje w JavaScripcie. Kolekcje można uruchamiać z terminala przez Newmana albo Postman CLI, np. w CI. Używam go do eksploracji API, debugowania i testów, a do automatyzacji w kodzie biblioteki typu `httpx` lub `requests`.

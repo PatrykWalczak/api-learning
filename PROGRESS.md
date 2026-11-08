@@ -3,9 +3,9 @@
 Legenda: `[x]` zrobione · `[ ]` do zrobienia · ➡️ aktualny punkt
 
 ## 📍 Punkt startowy (dla nowej sesji)
-- **Moduł:** M0 ukończony ✅ (M1 też ✅). Następny: **M2. Konsumowanie API ręcznie: Postman**.
-- **Koncept:** Pierwsze zapytania do publicznego API. Jeszcze nie zaczęty. Uczeń ma zainstalowanego Postmana (wersja desktop). Zaczynamy od wyboru prostego, darmowego publicznego API bez klucza (sprawdź aktualną dokumentację Postmana w context7 przed pokazaniem interfejsu). Uczeń nie używał jeszcze httpx (to M3). Repo: `https://github.com/PatrykWalczak/api-learning`.
-- **Pytanie czekające na odpowiedź:** brak. Zacznij od pierwszego konceptu M2.
+- **Moduł:** M0, M1 i M2 ukończone ✅. Następny: **M3. Konsumowanie API z kodu: Python + httpx**.
+- **Koncept:** M3, „GET z kodu, parsowanie JSON”. Jeszcze nie zaczęty. Pierwsza instalacja biblioteki, więc pokazać workflow uv (`uv init`, `uv add httpx`, `uv run`; składnia z context7 /astral-sh/uv i /encode/httpx). Uczeń zna z Postmana GET `https://jsonplaceholder.typicode.com/posts/1`, query params, status 200, asercje i tablice JSON (forEach). Python to dla niego nowość na poziomie podstaw: tłumaczyć `dict`/`list` przy JSON. Repo `E:\Projects\API` ma folder `postman/` z kolekcją i środowiskiem oraz README (drobny niedoróbek: drugi nagłówek w README nadal `#` zamiast `##`). W Postmanie zakładki „Before request”/„After response”, jedna kolumna „Value”. Słabszy punkt: literówki (np. `usersId`). Workflow Git znany: `switch -c`, `push -u`, PR, merge, `pull`, usuwanie gałęzi lokalnie i zdalnie. Zmiany w `PROGRESS.md` i `INTERVIEW.md` bywają niezacommitowane, przypomnieć o commicie.
+- **Pytanie czekające na odpowiedź:** brak. Zacznij od pierwszego konceptu M3.
 - **Ustalenia:** narzędzie automatyzacji to Power Automate (nie n8n). Po każdym koncepcie pytanie rekrutacyjne do `INTERVIEW.md`. **Zamiast czystego venv używamy `uv`** (uczeń zainstalował uv 0.13.7, `.venv` utworzony przez `uv venv` w `E:\Projects\API`). Pełny workflow uv (`uv init`, `uv add`, `uv run`) pokazać przy pierwszej instalacji biblioteki (httpx w M3), składnię sprawdzić w context7 (/astral-sh/uv). Python 3.15.2, Git 2.56 zainstalowane. Postman zainstalowany.
 
 ## M0. Setup
@@ -27,15 +27,15 @@ Legenda: `[x]` zrobione · `[ ]` do zrobienia · ➡️ aktualny punkt
 - [x] Idempotentność
 
 ## M2. Konsumowanie API ręcznie: Postman
-- [ ] ➡️ Pierwsze zapytania do publicznego API
-- [ ] Kolekcje
-- [ ] Zmienne i środowiska
-- [ ] Testy (asercje) w Postmanie
-- [ ] Git w praktyce: gałęzie (branch) i pull request
-- [ ] **Mini-projekt:** kolekcja z testami na GitHubie
+- [x] Pierwsze zapytania do publicznego API
+- [x] Kolekcje
+- [x] Zmienne i środowiska
+- [x] Testy (asercje) w Postmanie
+- [x] Git w praktyce: gałęzie (branch) i pull request
+- [x] **Mini-projekt:** kolekcja z testami na GitHubie
 
 ## M3. Konsumowanie API z kodu: Python + httpx
-- [ ] GET z kodu, parsowanie JSON
+- [ ] ➡️ GET z kodu, parsowanie JSON
 - [ ] POST z kodu
 - [ ] Obsługa błędów i timeouty
 - [ ] Paginacja
@@ -100,3 +100,4 @@ Legenda: `[x]` zrobione · `[ ]` do zrobienia · ➡️ aktualny punkt
 | 2026-11-06 | Plan nauki, CLAUDE.md, PROGRESS.md | M1: Klient, serwer i API (czeka na odpowiedź) |
 | 2026-11-07 | **M1 ukończony**: 9 konceptów HTTP/REST, 9 pytań w INTERVIEW.md. Słabszy punkt: przy PATCH uczeń wpisał wartość w URL zamiast w body (poprawione). | M0 Setup, potem M2 Postman |
 | 2026-11-08 | **M0 ukończony**: Python 3.15.2 + uv (`.venv`), VS Code, Git (konfiguracja), repo `api-learning` na GitHubie, Postman. 6 pytań dodanych do INTERVIEW.md. Plan uzupełniony o gałęzie/PR (M2) i GitHub Actions (M7). | M2: pierwsze zapytania w Postmanie |
+| 2026-11-08 | **M2 ukończony**: Postman (pierwsze zapytania, kolekcje, zmienne i środowiska, testy asercji), Git: gałęzie, PR #1 i #2, merge, sprzątanie gałęzi. Kolekcja z testami w `postman/` na GitHubie, README. 5 pytań dodanych do INTERVIEW.md. Słabszy punkt: literówki (`usersId`). | M3: GET z kodu (httpx, uv) |

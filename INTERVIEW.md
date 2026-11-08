@@ -53,3 +53,23 @@ Jedno pytanie na każdy opanowany koncept. Przed rozmową o pracę powtórz na g
 
 ### Czym jest Postman i do czego służy w pracy z API?
 > Postman to narzędzie do ręcznego wysyłania zapytań HTTP i oglądania odpowiedzi bez pisania kodu. Pozwala ustawić metodę, URL, nagłówki, body i uwierzytelnianie, grupować zapytania w kolekcje, używać zmiennych i środowisk (dev, test, prod) oraz pisać testy-asercje w JavaScripcie. Kolekcje można uruchamiać z terminala przez Newmana albo Postman CLI, np. w CI. Używam go do eksploracji API, debugowania i testów, a do automatyzacji w kodzie biblioteki typu `httpx` lub `requests`.
+
+## M2. Konsumowanie API ręcznie: Postman
+
+### Co sprawdzasz w odpowiedzi, żeby ocenić, czy zapytanie do API zadziałało poprawnie?
+> Najpierw kod statusu: czy jest oczekiwany (np. 200 przy GET, 201 przy POST), a nie tylko „jakiś 2xx”. Potem body: czy ma właściwą strukturę, nazwy pól i typy danych oraz czy wartości zgadzają się z tym, co wysłałem lub oczekuję. Sprawdzam też nagłówki, głównie `Content-Type`, oraz czas odpowiedzi. W testach automatycznych zamieniam te kontrole na asercje.
+
+### Czym jest kolekcja w Postmanie i do czego służy poza porządkowaniem zapytań?
+> Kolekcja to zapisany zestaw requestów, które można grupować w foldery. Poza porządkiem pozwala ustawić na poziomie kolekcji wspólną autoryzację, zmienne i skrypty, które dziedziczą wszystkie requesty. Całą kolekcję można uruchomić naraz (Collection Runner, Newman albo Postman CLI w CI), wyeksportować do pliku JSON i trzymać w Gicie. Służy też jako dokumentacja API i sposób na współdzielenie zapytań w zespole.
+
+### Po co w Postmanie zmienne i środowiska oraz czym różnią się zakresy (scope) zmiennych?
+> Zmienna pozwala wpisać wartość raz, np. `{{base_url}}`, i używać jej w wielu requestach, więc zmianę robię w jednym miejscu. Środowisko to zestaw zmiennych (dev, test, prod), między którymi przełączam się jednym kliknięciem bez zmiany requestów. Zakresy od najszerszego: globalny, kolekcji, środowiska, a lokalny i danych z runnera są najwęższe. Gdy nazwy się powtarzają, wygrywa węższy zakres. Sekrety, np. klucze API, trzymam w current value albo w Postman Vault, żeby nie trafiły do zespołu ani do repozytorium.
+
+### Jak napisać test (asercję) w Postmanie i co warto w nim sprawdzać?
+> Testy piszę w JavaScripcie w skrypcie po odpowiedzi (After response / Post-response) w bloku `pm.test("opis", function () { ... })`. Wewnątrz używam `pm.expect(...)` albo `pm.response.to.have.status(200)`, a body czytam przez `pm.response.json()`. Sprawdzam kod statusu, wartości i typy pól w body, nagłówek `Content-Type` oraz czas odpowiedzi. Wynik widać jako PASS lub FAIL w Test Results, a cała kolekcja z testami może działać w Collection Runnerze, Newmanie albo w CI.
+
+### Po co używa się gałęzi i pull requestów i jak wygląda podstawowy workflow?
+> Gałąź (branch) pozwala pracować nad zmianą w izolacji, więc `main` zawsze zostaje działający. Typowy workflow: tworzę gałąź (`git switch -c nazwa`), robię commity, wypycham ją (`git push -u origin nazwa`) i otwieram pull request do `main`. W PR zespół robi code review, a często uruchamiają się też automatyczne testy (CI). Po zatwierdzeniu robię merge, a lokalnie `git switch main`, `git pull` i kasuję zbędną gałąź. Dzięki temu każda zmiana jest sprawdzona i łatwa do wycofania.
+
+### Jak trzymasz testy API w repozytorium i dlaczego eksportowany plik kolekcji Postmana jest trudny do przeglądania w diffie?
+> Kolekcję i środowisko eksportuję do plików JSON i trzymam w repo, a zmiany wprowadzam przez osobną gałąź i pull request, więc testy mają historię i review. Eksport zawiera całą strukturę, ID i metadane, więc diff jest głośny, a w PR szukam głównie sekcji ze skryptami testów. Sekretów nie commituję, bo do repo trafia środowisko, więc wartości wrażliwe trzymam poza nim. Taką kolekcję da się potem uruchomić w CI przez Newmana.

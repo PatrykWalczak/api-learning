@@ -11,6 +11,17 @@
       "item": [
         {
           "name": "Lista postow",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"list isn't empty\", function () {\r\n    pm.expect(pm.response.json().length).to.be.above(0);\r\n});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -28,6 +39,17 @@
         },
         {
           "name": "Lista postow usera 1",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"every post has a userId of 1\", function () {\r\n    const responseJson = pm.response.json();\r\n    responseJson.forEach(post => {\r\n        pm.expect(post.userId).to.eql(1);\r\n    });\r\n});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],

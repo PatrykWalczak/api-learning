@@ -1,0 +1,84 @@
+{
+  "info": {
+    "_postman_id": "889b6ffb-2b25-460f-b8ab-ef97196fc7f3",
+    "name": "JSONPlaceholder",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "7003583"
+  },
+  "item": [
+    {
+      "name": "Posts",
+      "item": [
+        {
+          "name": "Lista postow",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/posts",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Lista postow usera 1",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/posts?userId=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Pobierz post 1",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"userId is 1\", function () {\r\n    pm.expect(pm.response.json().userId).to.eql(1);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/posts/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "posts",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

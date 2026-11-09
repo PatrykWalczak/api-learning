@@ -1,3 +1,7 @@
 .venv/
 .env
 __pycache__/
+posts.csv
+posts.json
+.python-version
+src/api

@@ -73,3 +73,21 @@ Jedno pytanie na każdy opanowany koncept. Przed rozmową o pracę powtórz na g
 
 ### Jak trzymasz testy API w repozytorium i dlaczego eksportowany plik kolekcji Postmana jest trudny do przeglądania w diffie?
 > Kolekcję i środowisko eksportuję do plików JSON i trzymam w repo, a zmiany wprowadzam przez osobną gałąź i pull request, więc testy mają historię i review. Eksport zawiera całą strukturę, ID i metadane, więc diff jest głośny, a w PR szukam głównie sekcji ze skryptami testów. Sekretów nie commituję, bo do repo trafia środowisko, więc wartości wrażliwe trzymam poza nim. Taką kolekcję da się potem uruchomić w CI przez Newmana.
+
+### Jak wysłać zapytanie GET w Pythonie i odczytać odpowiedź JSON?
+> Używam biblioteki `httpx` (albo `requests`): `r = httpx.get(url, params={...})`. Kod statusu czytam z `r.status_code`, a body zamieniam na obiekty Pythona przez `r.json()`. Pojedynczy zasób to `dict`, kolekcja to `list` słowników, więc do pól odwołuję się przez `dane["title"]`. Przed użyciem danych warto sprawdzić status, np. przez `r.raise_for_status()`.
+
+### Jak wysłać POST z body JSON w Pythonie i jakiego statusu oczekujesz po utworzeniu zasobu?
+> Używam `httpx.post(url, json=dane)`, gdzie `dane` to słownik Pythona. Biblioteka serializuje go do JSON i ustawia nagłówek `Content-Type: application/json`, a przy `data=` wysłałaby dane jako formularz. Po udanym utworzeniu zasobu serwer powinien zwrócić 201 Created, często z utworzonym obiektem (z nowym `id`) w body i nagłówkiem `Location`. Dla błędnych danych spodziewam się 400 albo 422.
+
+### Jak obsługujesz błędy i timeouty przy wywołaniach API w Pythonie?
+> Zawsze ustawiam `timeout`, bo domyślnie zawieszone API mogłoby blokować skrypt. Po zapytaniu wołam `raise_for_status()`, które rzuca `HTTPStatusError` dla 4xx i 5xx, bo samo `httpx.get` przy 404 nie rzuca wyjątku. W `try/except` rozdzielam błędy statusu (odpowiedź przyszła, ale zła) od `RequestError` (sieć, DNS, timeout). Dla 5xx i timeoutów sensowny jest retry, a dla 4xx nie, bo błąd leży po mojej stronie.
+
+### Czym jest paginacja w API i jak pobierasz wszystkie dane z API, które zwraca je stronami?
+> Paginacja to zwracanie dużych zbiorów w porcjach, żeby nie obciążać serwera i sieci. Typowe warianty to `page` i `limit` (albo `offset`), oraz kursor (`cursor`/`next`), który lepiej działa przy zmieniających się danych. W kliencie robię pętlę: pobieram stronę, dodaję rekordy do wyniku, zwiększam numer strony i kończę, gdy odpowiedź jest pusta albo nie ma linku do następnej strony. Parametry przekazuję przez `params=`, a przy każdym zapytaniu ustawiam timeout i sprawdzam status.
+
+### Czym jest rate limiting i jak klient powinien reagować na kod 429 oraz błędy 5xx?
+> Rate limiting to ograniczenie liczby zapytań w czasie, które chroni API przed przeciążeniem. Po przekroczeniu limitu serwer zwraca 429 Too Many Requests, często z nagłówkiem `Retry-After`, który mówi, ile czekać. Klient ponawia (retry) zapytania przy 429, 5xx i timeoutach, ale nie przy 4xx, bo tam błąd leży po stronie klienta. Przerwy rosną wykładniczo (exponential backoff: 1 s, 2 s, 4 s), najlepiej z losowym odchyleniem (jitter), a liczba prób jest ograniczona.
+
+### Jak zapisujesz dane pobrane z API do plików JSON i CSV w Pythonie?
+> Dane z `r.json()` to lista słowników. Do JSON używam `json.dump(dane, plik, ensure_ascii=False, indent=2)`, a do CSV `csv.DictWriter` z listą `fieldnames`, `writeheader()` i `writerows()`. CSV nie piszę ręcznie przez `f.write`, bo wartość z przecinkiem lub cudzysłowem rozjechałaby kolumny, a moduł `csv` sam ujmuje takie pola w cudzysłowy. Pliki otwieram przez `with open(..., encoding="utf-8")`, a do CSV dodaję `newline=""`, żeby uniknąć pustych linii na Windowsie.

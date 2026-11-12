@@ -91,3 +91,23 @@ Jedno pytanie na każdy opanowany koncept. Przed rozmową o pracę powtórz na g
 
 ### Jak zapisujesz dane pobrane z API do plików JSON i CSV w Pythonie?
 > Dane z `r.json()` to lista słowników. Do JSON używam `json.dump(dane, plik, ensure_ascii=False, indent=2)`, a do CSV `csv.DictWriter` z listą `fieldnames`, `writeheader()` i `writerows()`. CSV nie piszę ręcznie przez `f.write`, bo wartość z przecinkiem lub cudzysłowem rozjechałaby kolumny, a moduł `csv` sam ujmuje takie pola w cudzysłowy. Pliki otwieram przez `with open(..., encoding="utf-8")`, a do CSV dodaję `newline=""`, żeby uniknąć pustych linii na Windowsie.
+
+## M4. Uwierzytelnianie
+
+### Czym jest API key, jak go wysyłasz i jakie ma ograniczenia?
+> API key to tajny ciąg znaków identyfikujący aplikację (klienta) wywołującą API. Wysyłam go w nagłówku, np. `X-API-Key` albo `Authorization`, a nie w query params, bo URL trafia do logów, historii i proxy. Klucz służy do identyfikacji, limitów i rozliczeń, ale zwykle nie identyfikuje konkretnego użytkownika i nie ma daty ważności ani wąskich uprawnień. Dlatego trzymam go w `.env`, nigdy w repo, a po wycieku od razu go unieważniam i rotuję.
+
+### Jak wygląda uwierzytelnianie Bearer tokenem i czym różni się od API key?
+> Token wysyłam w nagłówku `Authorization: Bearer <token>`, czyli w standardowym miejscu, które rozumieją biblioteki, proxy i dokumentacje (np. OpenAPI). W przeciwieństwie do typowego API key token zwykle wygasa i często reprezentuje konkretnego użytkownika oraz jego uprawnienia (scope). „Bearer” znaczy, że kto go posiada, ma dostęp, więc wysyłam go tylko po HTTPS i nie loguję. Przy błędnym lub wygasłym tokenie serwer zwraca 401, a przy braku uprawnień 403.
+
+### Czym jest OAuth2 i jak działa Authorization Code flow?
+> OAuth2 to standard delegowania dostępu: aplikacja dostaje token o ograniczonym zakresie (scope) zamiast hasła użytkownika. W Authorization Code flow użytkownik loguje się i zatwierdza zgodę na serwerze autoryzacji, ten odsyła do aplikacji jednorazowy kod, a aplikacja wymienia kod (z `client_id` i `client_secret`) na access token i często refresh token. Potem wywołuje API z `Authorization: Bearer <access_token>`, a po wygaśnięciu odświeża token refresh tokenem. Warto pamiętać, że OAuth2 dotyczy autoryzacji (co wolno), a nie uwierzytelniania użytkownika; do tego służy OpenID Connect.
+
+### Czym jest JWT, z jakich części się składa i czy jest szyfrowany?
+> JWT (JSON Web Token) to format tokena złożony z trzech części oddzielonych kropkami: header (algorytm), payload (claims, np. `sub`, `exp`, `role`) i signature (podpis). Header i payload są tylko zakodowane Base64, a nie zaszyfrowane, więc każdy może je odczytać i nie wolno tam trzymać haseł ani danych wrażliwych. Podpis, tworzony tajnym kluczem serwera, gwarantuje integralność: zmiana payloadu unieważnia podpis. Dzięki temu serwer może zweryfikować token bez zaglądania do bazy (jest bezstanowy), ale trzeba ustawiać krótki `exp`, bo wystawionego JWT trudno odwołać.
+
+### Jak przechowujesz klucze API w projekcie Python i jak odczytujesz je w kodzie?
+> Klucze trzymam w pliku `.env` (pary `NAZWA=wartość`), który dopisuję do `.gitignore` przed pierwszym commitem, a w repo zostaje `.env.example` z samymi nazwami zmiennych. W kodzie wołam `load_dotenv()` z `python-dotenv`, a wartość czytam przez `os.getenv("NAZWA")`. Przy braku zmiennej `getenv` zwraca `None`, więc warto sprawdzić to na starcie i zgłosić czytelny błąd zamiast wysyłać puste zapytanie. Na produkcji sekrety zwykle ustawia się jako zmienne środowiskowe lub w menedżerze sekretów, a nie w pliku.
+
+### Jak wywołujesz API wymagające klucza i na co uważasz, żeby go nie ujawnić?
+> Klucz trzymam w `.env` (w `.gitignore`), wczytuję przez `load_dotenv()` i `os.getenv`, a przed zapytaniem sprawdzam, czy nie jest `None`. Sposób przekazania wskazuje dokumentacja API: najlepiej nagłówek (`Authorization: Bearer` lub `X-API-Key`), ale niektóre API wymagają query param, np. `appid`, i wtedy przekazuję go przez `params=`, a nie sklejam URL. Uważam, bo URL z kluczem trafia do logów, a nawet do komunikatu wyjątku (httpx wypisuje cały URL), więc nie loguję surowych błędów. Po wycieku klucz unieważniam i generuję nowy.

@@ -3,9 +3,9 @@
 Legenda: `[x]` zrobione · `[ ]` do zrobienia · ➡️ aktualny punkt
 
 ## 📍 Punkt startowy (dla nowej sesji)
-- **Moduł:** M0, M1, M2 i M3 ukończone ✅. Następny: **M4. Uwierzytelnianie**.
-- **Koncept:** M4, „API key”. Jeszcze nie zaczęty. Uczeń zna z M1 nagłówki HTTP, z M3 `httpx.get/post`, `params=`, `headers=` jeszcze nie używał (pokazać), `try/except`, `raise_for_status()`, retry z backoffem, paginację, zapis JSON i CSV (`csv.DictWriter`). Do ćwiczenia wybrać darmowe API z kluczem (np. pogoda); sprawdzić aktualną dokumentację wybranego API i httpx w context7. Klucz trzymać w `.env` poza repo (to temat osobnego konceptu, ale od początku nie wklejać kluczy do kodu). Słabszy punkt: literówki, odpowiedzi czasem mijają się z pytaniem (czytać pytanie dokładnie), wklejanie `params=` w tekst URL. Niezacommitowane: `m3_*.py`, `posts.json`, `posts.csv`, `pyproject.toml`, `uv.lock`, `GIT.md`, zmiany w `.md`, przypomnieć o gałęzi i PR (decyzja, czy `posts.*` trafiają do repo).
-- **Pytanie czekające na odpowiedź:** brak. Zacznij od pierwszego konceptu M3.
+- **Moduł:** M0, M1, M2, M3 i M4 ukończone ✅. Następny: **M5. Własne REST API: FastAPI**.
+- **Koncept:** M5, „Pierwszy endpoint i Uvicorn”. Jeszcze nie zaczęty. Uczeń zna: nagłówki i kody statusu (M1), httpx GET/POST, `params=`, `headers=`, błędy, retry, paginację, JSON/CSV (M3), uwierzytelnianie: API key, Bearer, OAuth2, JWT, `.env` + `.gitignore` + `python-dotenv` (M4). Dotąd był klientem API, teraz po raz pierwszy będzie serwerem. Sprawdzić aktualną dokumentację FastAPI i Uvicorn w context7; instalacja przez `uv add fastapi uvicorn` (lub `fastapi[standard]`, sprawdzić w dokumentacji). Słabsze punkty: literówki, odpowiedzi mijające się z pytaniem (czytać pytanie dokładnie, odpowiadać na wszystkie części), `params=` wklejane w URL. Do zrobienia po M4: zrotować klucz OpenWeatherMap (stary wyciekł w traceback), zacommitować na gałęzi i zrobić PR (`m4_weather.py`, `.env.example`, `.gitignore`, `pyproject.toml`, `uv.lock`; `.env` NIE trafia do repo).
+- **Pytanie czekające na odpowiedź:** brak. Zacznij od pierwszego konceptu M5.
 - **Ustalenia:** narzędzie automatyzacji to Power Automate (nie n8n). Po każdym koncepcie pytanie rekrutacyjne do `INTERVIEW.md`. **Zamiast czystego venv używamy `uv`** (uczeń zainstalował uv 0.13.7, `.venv` utworzony przez `uv venv` w `E:\Projects\API`). Pełny workflow uv (`uv init`, `uv add`, `uv run`) pokazać przy pierwszej instalacji biblioteki (httpx w M3), składnię sprawdzić w context7 (/astral-sh/uv). Python 3.15.2, Git 2.56 zainstalowane. Postman zainstalowany.
 
 ## M0. Setup
@@ -43,15 +43,15 @@ Legenda: `[x]` zrobione · `[ ]` do zrobienia · ➡️ aktualny punkt
 - [x] **Mini-projekt:** skrypt raportu (API → CSV/JSON)
 
 ## M4. Uwierzytelnianie
-- [ ] ➡️ API key
-- [ ] Bearer token
-- [ ] OAuth2 (koncepcja i flow)
-- [ ] JWT
-- [ ] Sekrety w `.env` i `.gitignore`
-- [ ] **Ćwiczenie:** wywołanie API z kluczem (pogoda lub LLM)
+- [x] API key
+- [x] Bearer token
+- [x] OAuth2 (koncepcja i flow)
+- [x] JWT
+- [x] Sekrety w `.env` i `.gitignore`
+- [x] **Ćwiczenie:** wywołanie API z kluczem (pogoda lub LLM)
 
 ## M5. Własne REST API: FastAPI
-- [ ] Pierwszy endpoint i Uvicorn
+- [ ] ➡️ Pierwszy endpoint i Uvicorn
 - [ ] Path i query params
 - [ ] Modele Pydantic i walidacja
 - [ ] Kody statusu i obsługa błędów
@@ -102,3 +102,4 @@ Legenda: `[x]` zrobione · `[ ]` do zrobienia · ➡️ aktualny punkt
 | 2026-11-08 | **M0 ukończony**: Python 3.15.2 + uv (`.venv`), VS Code, Git (konfiguracja), repo `api-learning` na GitHubie, Postman. 6 pytań dodanych do INTERVIEW.md. Plan uzupełniony o gałęzie/PR (M2) i GitHub Actions (M7). | M2: pierwsze zapytania w Postmanie |
 | 2026-11-08 | **M2 ukończony**: Postman (pierwsze zapytania, kolekcje, zmienne i środowiska, testy asercji), Git: gałęzie, PR #1 i #2, merge, sprzątanie gałęzi. Kolekcja z testami w `postman/` na GitHubie, README. 5 pytań dodanych do INTERVIEW.md. Słabszy punkt: literówki (`usersId`). | M3: GET z kodu (httpx, uv) |
 | 2026-11-09 | **M3 ukończony**: httpx GET/POST, `json()`, błędy i timeouty (`raise_for_status`, `try/except`), paginacja (`_page`/`_limit`), retry z exponential backoff, mini-projekt `m3_report.py` (API → JSON + CSV). 5 pytań dodanych do INTERVIEW.md. Słabszy punkt: `params=` wklejane w URL, logika `not []`, odpowiedzi mijające się z pytaniem. | M4: API key |
+| 2026-11-12 | **M4 ukończony**: API key, Bearer token, OAuth2 (Authorization Code flow), JWT, sekrety w `.env`/`.gitignore`, ćwiczenie `m4_weather.py` (OpenWeatherMap, klucz jako query param `appid`). 6 pytań dodanych do INTERVIEW.md. Nauka: URL z kluczem wyciekł w traceback httpx; nowy klucz aktywował się po kilku godzinach (401 `Invalid API key`). Słabszy punkt: literówki, niepełne odpowiedzi. | M5: pierwszy endpoint FastAPI |
